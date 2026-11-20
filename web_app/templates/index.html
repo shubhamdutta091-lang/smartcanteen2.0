@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCanteen | ML Food Demand & Waste Reduction Platform</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Plotly.js for Interactive Visualizations -->
+  <script src="https://cdn.plot.ly/plotly-2.29.0.min.js"></script>
+  <!-- Custom Modern Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand-section">
+      <a href="#" class="brand-logo">
+        <div class="brand-logo-icon">🥗</div>
+        <div>SmartCanteen</div>
+      </a>
+      <span class="brand-badge">ML Demand & Waste Platform</span>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="#home" class="nav-link active" data-tab="tab-home">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#data" class="nav-link" data-tab="tab-data">
+          <span class="nav-icon">📂</span> Upload/View Data
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#input-food" class="nav-link" data-tab="tab-input-food">
+          <span class="nav-icon">✍️</span> Enter Food & Sales
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#analytics" class="nav-link" data-tab="tab-analytics">
+          <span class="nav-icon">📊</span> Data Analysis
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#train" class="nav-link" data-tab="tab-train">
+          <span class="nav-icon">🤖</span> Train ML Model
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#predict" class="nav-link" data-tab="tab-predict">
+          <span class="nav-icon">🔮</span> Predict Demand
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#waste" class="nav-link" data-tab="tab-waste">
+          <span class="nav-icon">📋</span> Waste Report
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#about" class="nav-link" data-tab="tab-about">
+          <span class="nav-icon">ℹ️</span> About
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-status-box">
+      <div class="sidebar-status-title">Dataset Health</div>
+      <div class="sidebar-pill" style="margin-bottom: 8px;">
+        <div class="pulse-dot"></div>
+        <span id="sidebar-ds-count">5,475 records</span>
+      </div>
+      <div class="sidebar-status-title" style="margin-top: 10px;">Champion ML Model</div>
+      <div class="sidebar-pill">
+        <span style="color: #15803d; font-size: 0.84rem; font-weight: 700;" id="sidebar-model-name">Random Forest (98% R²)</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Website Content Area -->
+  <main class="main-wrapper">
+
+    <!-- Top Navigation Header -->
+    <header class="top-navbar">
+      <div class="page-title-header" id="page-title-header">
+        <span>🏠</span> Home Overview
+      </div>
+      <div class="top-actions">
+        <span class="system-chip">
+          <span class="pulse-dot"></span>
+          Sustainable Campus AI • 2nd Year ML Capstone
+        </span>
+      </div>
+    </header>
+
+    <div class="content-container">
+
+      <!-- ============================================== -->
+      <!-- TAB 1: HOME -->
+      <!-- ============================================== -->
+      <section id="tab-home" class="tab-content active">
+        <div class="hero-banner">
+          <div class="hero-tag">✨ SUSTAINABLE CAMPUS INTELLIGENCE</div>
+          <h1>SmartCanteen: ML-Based Food Demand & Waste Reduction</h1>
+          <p>A machine learning web platform empowering institutional canteens to forecast daily student dining volume, recommend precise batch quantities with automated 10% safety stock buffers, eliminate food wastage, and prevent meal shortages.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">🎯 Objective & Problem Statement</h3>
+            <p style="color: #475569; line-height: 1.7; margin-bottom: 16px;">
+              Institutional college canteens deal with severe demand volatility driven by exam periods, weekly schedule patterns, weather shifts, and campus attendance. Without predictive analytics, kitchen managers rely on guesswork, resulting in:
+            </p>
+            <ul style="color: #475569; line-height: 1.8; padding-left: 20px; margin-bottom: 20px;">
+              <li><b>Massive Surplus Food Waste:</b> 15% to 35% of freshly cooked meals get dumped into trash bins on low-attendance days.</li>
+              <li><b>Meal Shortages (Stockouts):</b> Canteens run out of staple lunch items during rush hours, disappointing hungry students.</li>
+              <li><b>Severe Financial Loss:</b> Significant budget leakage on raw food ingredients, dairy, cooking gas, and trash disposal.</li>
+            </ul>
+
+            <h4 style="color: #15803d; font-size: 1.1rem; margin-bottom: 10px;">🌟 Core Stakeholder Benefits</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div style="background: #f8fafc; padding: 12px 16px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <b style="color: #0f172a;">👨‍🍳 Canteen Chefs</b>
+                <p style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">Automated cooking batch sizes with safety buffer.</p>
+              </div>
+              <div style="background: #f8fafc; padding: 12px 16px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <b style="color: #0f172a;">🎓 Students & Faculty</b>
+                <p style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">Guaranteed meal availability & fresh hot food.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">🚀 High-Impact Operational Benchmarks</h3>
+            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-radius: 14px; padding: 22px; margin-bottom: 22px;">
+              <ul style="color: #14532d; line-height: 2; font-weight: 700; list-style: none;">
+                <li>✓ <b>Forecasting Accuracy:</b> Up to 98.1% R² Score</li>
+                <li>✓ <b>Food Waste Cut:</b> Reduces surplus by up to 60%</li>
+                <li>✓ <b>Automated Safety Buffer:</b> 10% Shortage Stock Buffer</li>
+                <li>✓ <b>Multi-Meal Support:</b> Breakfast, Lunch, and Dinner</li>
+                <li>✓ <b>Context Awareness:</b> Exams, Holidays, Rain, Temperature</li>
+              </ul>
+            </div>
+
+            <h4 style="color: #0f172a; font-size: 1rem; margin-bottom: 8px;">Architecture Pipeline Flow</h4>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; font-size: 0.88rem; color: #475569; line-height: 1.6;">
+              Data Collection (Attendance, Weather, Sales) → Preprocessing & Validation → Feature Engineering (Lags 1 & 7, 7d/14d Rolling Avgs) → Chronological Time Split → ML Model Training (Linear, DT, RF, XGBoost) → Automated 10% Safety Buffer → Kitchen Batch Sizing & Audit Report.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 2: UPLOAD / VIEW DATA -->
+      <!-- ============================================== -->
+      <section id="tab-data" class="tab-content">
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">📂 Dataset Management & Inspection</h3>
+          <p style="color: #64748b; margin-bottom: 20px;">Explore the pre-loaded 365-day canteen sales dataset, upload your own transaction CSV, or generate new synthetic datasets.</p>
+          
+          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 26px;">
+            <input type="file" id="csv-file-input" accept=".csv" class="form-control" style="max-width: 320px;">
+            <button id="btn-upload-csv" class="btn btn-primary">📤 Upload CSV</button>
+            <button id="btn-reset-dataset" class="btn btn-outline">🔄 Reset / Generate Fresh 365-Day Dataset</button>
+            <a href="/api/download-data" class="btn btn-outline" style="margin-left: auto;">📥 Download Dataset (CSV)</a>
+          </div>
+
+          <div class="grid-4">
+            <div class="kpi-card">
+              <div class="kpi-title">Total Records</div>
+              <div class="kpi-value" id="ds-rows">5,475</div>
+              <div class="kpi-sub">Transaction logs</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Feature Columns</div>
+              <div class="kpi-value" id="ds-cols">14</div>
+              <div class="kpi-sub">Predictors & target</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Menu Food Items</div>
+              <div class="kpi-value" id="ds-items">15</div>
+              <div class="kpi-sub">Breakfast, Lunch, Dinner</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Date Span</div>
+              <div class="kpi-value" id="ds-range" style="font-size: 1.25rem;">365 Days</div>
+              <div class="kpi-sub">Full academic year</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">👀 Dataset Sample Preview (First 10 Records)</h3>
+          <div class="table-responsive">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Meal</th>
+                  <th>Food Item</th>
+                  <th>Category</th>
+                  <th>Prepared</th>
+                  <th>Sold</th>
+                  <th>Leftover</th>
+                  <th>Holiday</th>
+                  <th>Exam</th>
+                  <th>Attendance</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody id="preview-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">📊 Dataset Descriptive Statistics</h3>
+          <div class="table-responsive">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Feature Column</th>
+                  <th>Mean</th>
+                  <th>Standard Deviation</th>
+                  <th>Min</th>
+                  <th>Max</th>
+                </tr>
+              </thead>
+              <tbody id="stats-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 2.5: ENTER FOOD & SALES DATA (NEW USER INPUT SECTION) -->
+      <!-- ============================================== -->
+      <section id="tab-input-food" class="tab-content">
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">✍️ Canteen Daily Kitchen Data Entry</h3>
+          <p style="color: #64748b; margin-bottom: 20px;">
+            Log real or simulated daily canteen records. Add new dishes, record quantities prepared vs. sold, or update daily campus signals (attendance, weather, exams). 
+            Saved records automatically append to the dataset and can be used for retraining.
+          </p>
+
+          <form id="new-food-data-form">
+            <div class="grid-4">
+              <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" id="entry-date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Meal Type</label>
+                <select class="form-control" id="entry-meal-type">
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Lunch" selected>Lunch</option>
+                  <option value="Dinner">Dinner</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Food Item Name</label>
+                <input type="text" class="form-control" id="entry-food-item" placeholder="e.g. Paneer Pulao, Masala Dosa" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Food Category</label>
+                <input type="text" class="form-control" id="entry-category" placeholder="e.g. North Indian, South Indian" required>
+              </div>
+            </div>
+
+            <div class="grid-4">
+              <div class="form-group">
+                <label class="form-label">Quantity Prepared</label>
+                <input type="number" class="form-control" id="entry-prepared" min="0" value="250" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quantity Sold</label>
+                <input type="number" class="form-control" id="entry-sold" min="0" value="230" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price per Item (₹)</label>
+                <input type="number" class="form-control" id="entry-price" min="1" step="0.5" value="70.0" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expected Attendance</label>
+                <input type="number" class="form-control" id="entry-attendance" min="0" value="1200" required>
+              </div>
+            </div>
+
+            <div class="grid-4">
+              <div class="form-group">
+                <label class="form-label">Is It a Holiday / Off-Day?</label>
+                <select class="form-control" id="entry-holiday">
+                  <option value="0">No (Normal Day)</option>
+                  <option value="1">Yes (Holiday)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Is It an Exam Week?</label>
+                <select class="form-control" id="entry-exam">
+                  <option value="0">No (Regular Classes)</option>
+                  <option value="1">Yes (Exams)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Temperature (°C)</label>
+                <input type="number" class="form-control" id="entry-temp" step="0.5" value="28.0" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Rainfall (mm)</label>
+                <input type="number" class="form-control" id="entry-rain" min="0" step="0.5" value="0.0" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="font-size: 1.05rem;">
+              💾 Save & Append Record to Dataset
+            </button>
+          </form>
+
+          <div id="entry-feedback" style="display: none; margin-top: 20px;" class="action-box">
+            <h4>✅ Record Saved Successfully</h4>
+            <p id="entry-feedback-msg"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: DATA ANALYSIS -->
+      <!-- ============================================== -->
+      <section id="tab-analytics" class="tab-content">
+        <h3 style="margin-bottom: 22px; font-weight: 800; color: #14532d; font-size: 1.45rem;">📊 Canteen Demand & Food Waste Analytics</h3>
+        
+        <div class="grid-4">
+          <div class="kpi-card">
+            <div class="kpi-title">Total Meals Prepared</div>
+            <div class="kpi-value" id="kpi-prepared" style="color: #0284c7;">--</div>
+            <div class="kpi-sub">Cooked portion volume</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Total Meals Sold</div>
+            <div class="kpi-value" id="kpi-sold" style="color: #16a34a;">--</div>
+            <div class="kpi-sub">Actual consumed demand</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Total Leftover Waste</div>
+            <div class="kpi-value" id="kpi-leftover" style="color: #ef4444;">--</div>
+            <div class="kpi-sub">Surplus meals dumped</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Overall Waste Rate</div>
+            <div class="kpi-value" id="kpi-waste-pct" style="color: #f59e0b;">--%</div>
+            <div class="kpi-sub">Leftover / Prepared</div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="kpi-card">
+            <div class="kpi-title">Avg Daily Demand</div>
+            <div class="kpi-value" id="kpi-avg-daily" style="font-size: 1.55rem;">--</div>
+            <div class="kpi-sub">Daily customer volume</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Top Selling Dish</div>
+            <div class="kpi-value" id="kpi-top-item" style="font-size: 1.35rem; color: #15803d;">--</div>
+            <div class="kpi-sub">Highest popularity</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Prime Meal Window</div>
+            <div class="kpi-value" id="kpi-top-meal" style="font-size: 1.45rem;">--</div>
+            <div class="kpi-sub">Largest sales share</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Busiest Day</div>
+            <div class="kpi-value" id="kpi-top-day" style="font-size: 1.45rem; color: #0d3813;">--</div>
+            <div class="kpi-sub">Peak campus presence</div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 1: Daily Trend & Weekday -->
+        <div class="grid-2">
+          <div class="card">
+            <h4 class="card-title">📅 Daily Prepared vs Sold Demand Trend</h4>
+            <div id="chart-daily-trend" style="height: 330px;"></div>
+          </div>
+          <div class="card">
+            <h4 class="card-title">🗓️ Average Demand by Day of Week</h4>
+            <div id="chart-dow" style="height: 330px;"></div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 2: Meal Share, Category, Items -->
+        <div class="grid-3">
+          <div class="card">
+            <h4 class="card-title">🍱 Demand by Meal Type</h4>
+            <div id="chart-meal-share" style="height: 290px;"></div>
+          </div>
+          <div class="card">
+            <h4 class="card-title">🍲 Demand by Category</h4>
+            <div id="chart-cat-demand" style="height: 290px;"></div>
+          </div>
+          <div class="card">
+            <h4 class="card-title">🏆 Top Selling Menu Items</h4>
+            <div id="chart-top-items" style="height: 290px;"></div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 3: Waste Items & Academic Impact -->
+        <div class="grid-2">
+          <div class="card">
+            <h4 class="card-title">⚠️ Items with Highest Leftovers</h4>
+            <div id="chart-waste-items" style="height: 310px;"></div>
+          </div>
+          <div class="card">
+            <h4 class="card-title">🎯 Academic Period Impact (Normal vs Exam vs Holiday)</h4>
+            <div id="chart-academic-impact" style="height: 310px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 4: TRAIN ML MODEL -->
+      <!-- ============================================== -->
+      <section id="tab-train" class="tab-content">
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">🤖 Machine Learning Model Benchmarking</h3>
+          <p style="color: #64748b; margin-bottom: 20px;">Evaluates 4 supervised regression algorithms using chronological time-series splitting to strictly avoid future data leakage.</p>
+
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 24px;">
+            <button id="btn-trigger-train" class="btn btn-primary">🚀 Retrain & Benchmark Models</button>
+            <span style="font-size: 0.9rem; color: #475569;">Champion algorithm: <b id="active-model-title" style="color: #15803d;">Random Forest Regressor</b></span>
+          </div>
+
+          <h4 style="font-size: 1.05rem; margin-bottom: 12px; color: #0f172a;">Model Accuracy & Error Leaderboard</h4>
+          <div class="table-responsive">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Model Algorithm</th>
+                  <th>Mean Absolute Error (MAE)</th>
+                  <th>Root Mean Squared Error (RMSE)</th>
+                  <th>R² Score (Accuracy)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 class="card-title">🔍 Feature Importance (Champion Model)</h4>
+          <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 16px;">Operational signals that most influence tomorrow's consumer demand.</p>
+          <div id="chart-feature-importance" style="height: 330px;"></div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 5: PREDICT DEMAND -->
+      <!-- ============================================== -->
+      <section id="tab-predict" class="tab-content">
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">🔮 Predict Tomorrow's Demand & Batch Quantities</h3>
+          <p style="color: #64748b; margin-bottom: 20px;">Enter upcoming operational conditions to forecast exact meal sales and optimize kitchen production with an automated 10% safety buffer.</p>
+
+          <form id="prediction-form">
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Target Date</label>
+                <input type="date" class="form-control" id="pred-date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Meal Type</label>
+                <select class="form-control" id="pred-meal-type">
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Lunch" selected>Lunch</option>
+                  <option value="Dinner">Dinner</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Food Dish</label>
+                <select class="form-control" id="pred-food-item">
+                  <!-- Populated via JS -->
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Food Category</label>
+                <select class="form-control" id="pred-category">
+                  <!-- Populated via JS -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price per Portion (₹)</label>
+                <input type="number" class="form-control" id="pred-price" value="85" step="5">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Usual Quantity Cooked (Without AI)</label>
+                <input type="number" class="form-control" id="pred-usual" value="400" step="10">
+              </div>
+            </div>
+
+            <div class="grid-4">
+              <div class="form-group">
+                <label class="form-label">Expected Attendance</label>
+                <input type="number" class="form-control" id="pred-attendance" value="1200" step="50">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Holiday / Weekend?</label>
+                <select class="form-control" id="pred-holiday">
+                  <option value="0">No (Normal Day)</option>
+                  <option value="1">Yes (Holiday)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Exam Week?</label>
+                <select class="form-control" id="pred-exam">
+                  <option value="0">No (Regular Classes)</option>
+                  <option value="1">Yes (Exams)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Temperature (°C)</label>
+                <input type="number" class="form-control" id="pred-temp" value="28.0" step="0.5">
+              </div>
+            </div>
+
+            <div class="grid-4">
+              <div class="form-group">
+                <label class="form-label">Rainfall (mm)</label>
+                <input type="number" class="form-control" id="pred-rain" value="0.0" step="1.0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sales Yesterday (Lag 1)</label>
+                <input type="number" class="form-control" id="pred-lag1" value="260" step="5">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sales 7 Days Ago (Lag 7)</label>
+                <input type="number" class="form-control" id="pred-lag7" value="255" step="5">
+              </div>
+              <div class="form-group">
+                <label class="form-label">7-Day Moving Average</label>
+                <input type="number" class="form-control" id="pred-avg7" value="258.0" step="5">
+              </div>
+            </div>
+
+            <input type="hidden" id="pred-avg14" value="260.0">
+            <input type="hidden" id="pred-dow-avg" value="265.0">
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.05rem;">🔮 Forecast Demand & Kitchen Recommendation</button>
+          </form>
+        </div>
+
+        <!-- Prediction Result Output Area -->
+        <div id="pred-results-card" class="card" style="display: none;">
+          <h3 class="card-title">🎯 Forecast Results & Kitchen Sizing Directive</h3>
+
+          <div class="grid-5">
+            <div class="kpi-card">
+              <div class="kpi-title">Predicted Demand</div>
+              <div class="kpi-value" id="res-predicted" style="color: #16a34a;">--</div>
+              <div class="kpi-sub">Expected sales</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Safety Buffer (10%)</div>
+              <div class="kpi-value" id="res-safety" style="color: #0284c7;">--</div>
+              <div class="kpi-sub">Shortage buffer</div>
+            </div>
+            <div class="kpi-card" style="background-color: #f0fdf4; border: 2px solid #16a34a;">
+              <div class="kpi-title" style="color: #14532d;">Recommended Cook</div>
+              <div class="kpi-value" id="res-recommended" style="color: #14532d;">--</div>
+              <div class="kpi-sub">Demand + 10% Buffer</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Surplus Saved</div>
+              <div class="kpi-value" id="res-saved" style="color: #15803d;">--</div>
+              <div class="kpi-sub">Meals saved from waste</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Safe Margin Leftover</div>
+              <div class="kpi-value" id="res-leftover" style="color: #4ade80;">--</div>
+              <div class="kpi-sub">With ML guidance</div>
+            </div>
+          </div>
+
+          <div class="action-box">
+            <h4>📢 Kitchen Action Directive</h4>
+            <p id="res-directive">--</p>
+          </div>
+
+          <h4 style="margin-top: 22px; margin-bottom: 14px; font-weight: 700;">Portion Breakdown Comparison (Usual Cooking vs SmartCanteen Optimization)</h4>
+          <div id="chart-pred-comparison" style="height: 300px;"></div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 6: WASTE REPORT -->
+      <!-- ============================================== -->
+      <section id="tab-waste" class="tab-content">
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 class="card-title">🎛️ Live What-If Waste Calculator & Cost Simulator</h3>
+          <p style="color: #64748b; margin-bottom: 20px;">Simulate any custom portion batch size to evaluate food surplus, money wasted, and cost savings.</p>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label class="form-label">Portions Prepared (Without AI)</label>
+              <input type="number" class="form-control" id="sim-usual" value="400">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Actual / Predicted Demand</label>
+              <input type="number" class="form-control" id="sim-demand" value="320">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Production Cost per Meal (₹)</label>
+              <input type="number" class="form-control" id="sim-cost" value="45">
+            </div>
+          </div>
+
+          <button id="btn-run-sim" class="btn btn-primary" style="margin-bottom: 22px;">⚡ Run What-If Simulation</button>
+
+          <div class="grid-3">
+            <div class="kpi-card">
+              <div class="kpi-title">Operational Health</div>
+              <div id="sim-status" class="kpi-value badge-yellow" style="font-size: 1.15rem; width: fit-content;">Moderate Waste (20.0%)</div>
+              <div class="kpi-sub">Usual preparation surplus</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Financial Waste Loss</div>
+              <div id="sim-money-wasted" class="kpi-value" style="color: #ef4444;">₹3,600.00</div>
+              <div class="kpi-sub">Thrown in trash</div>
+            </div>
+            <div class="kpi-card" style="background-color: #f0fdf4;">
+              <div class="kpi-title" style="color: #14532d;">SmartCanteen Savings</div>
+              <div id="sim-money-saved" class="kpi-value" style="color: #16a34a;">₹2,160.00</div>
+              <div class="kpi-sub">Cost saved per meal batch</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+            <h3 class="card-title" style="margin-bottom: 0;">📜 Historical Prediction & Audit Trail</h3>
+            <a href="/api/download-report" class="btn btn-primary">📥 Download Prediction & Waste Report (CSV)</a>
+          </div>
+          <div class="table-responsive">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Target Date</th>
+                  <th>Food Item</th>
+                  <th>Meal</th>
+                  <th>Predicted</th>
+                  <th>Recommended</th>
+                  <th>Usual</th>
+                  <th>Portions Saved</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 7: ABOUT -->
+      <!-- ============================================== -->
+      <section id="tab-about" class="tab-content">
+        <div class="hero-banner">
+          <div class="hero-tag">PROJECT DOCUMENTATION & CAPSTONE</div>
+          <h1>College ML Capstone Project</h1>
+          <p>Designed for sustainable smart campus dining, automated safety buffering, and food waste elimination.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">📌 Methodology & Machine Learning</h3>
+            <p style="color: #475569; line-height: 1.7; margin-bottom: 16px;">
+              SmartCanteen employs supervised time-series regression algorithms leveraging yesterday's lag sales, 7-day and 14-day rolling averages, student campus attendance, exam periods, and weather signals.
+            </p>
+            <h4 style="color: #15803d; font-size: 1.05rem; margin-bottom: 10px;">Algorithms Benchmarked:</h4>
+            <ul style="color: #475569; line-height: 1.8; padding-left: 20px;">
+              <li><b>Random Forest Regressor (Champion):</b> 98.1% R² Score, MAE 9.71</li>
+              <li><b>XGBoost Regressor:</b> 97.4% R² Score, MAE 10.51</li>
+              <li><b>Decision Tree Regressor:</b> 96.2% R² Score, MAE 13.04</li>
+              <li><b>Linear Regression:</b> 93.3% R² Score, MAE 17.82</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">🛠️ Technology Stack & Credits</h3>
+            <ul style="color: #475569; line-height: 1.9; list-style: none;">
+              <li><b>Backend & Machine Learning:</b> Python 3.10+, Scikit-Learn, XGBoost, Joblib, Pandas, NumPy</li>
+              <li><b>Web Server & APIs:</b> FastAPI, Uvicorn, Jinja2 Templates</li>
+              <li><b>Frontend & Interactive Visuals:</b> HTML5, CSS3, JavaScript (ES6+), Plotly.js</li>
+              <li><b>Project Mentorship:</b> Department of Computer Science & Engineering</li>
+            </ul>
+
+            <h4 style="color: #0f172a; font-size: 1.05rem; margin-top: 20px; margin-bottom: 10px;">Team Members:</h4>
+            <p style="color: #64748b; font-size: 0.94rem; line-height: 1.7;">
+              • Lead Developer & ML Engineer<br>
+              • Data Analyst & Feature Architect<br>
+              • UI/UX & Web Developer
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Universal Page Footer -->
+    <footer class="site-footer">
+      🌱 SmartCanteen | Reducing Food Waste with Machine Learning
+    </footer>
+
+  </main>
+</div>
+
+<!-- Client App Script -->
+<script src="/static/js/main.js"></script>
+</body>
+</html>
